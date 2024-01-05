@@ -1,36 +1,29 @@
 version: "3.9"
 services:
   pgweb:
-	build:
-	  args:
-		ALPINE_VERSION: "latest"
-		CONTAINER_VERSION: "15.5"
-		PGWEB_VERSION: "0.14.2"
-	  context: .
-	  dockerfile: container.build
-	  no_cache: true
-	  tags:
-		- "pgweb:build"
-		- "gautada/pgweb:build"
-	image: "pgweb:build"
-	ports:
-	  - "8080:8080"
-	volumes:
-	  # - "/Users/mada/Workspace/Container:/mnt/volumes/container"
-	  # - "/Users/mada/Workspace/Backup:/mnt/volumes/backup"
-	  # - "/mnt/volumes/container/Workspace/Container:/mnt/volumes/container"
-	  # - "/mnt/volumes/container/Workspace/Backup:/mnt/volumes/backup"
-	  - "Container:/mnt/volumes/container"
-	  - "Backup:/mnt/volumes/backup"
+    build:
+      args:
+        ALPINE_VERSION: "latest"
+        CONTAINER_VERSION: "15.5"
+        PGWEB_VERSION: "0.14.2"
+      context: .
+      dockerfile: container.build
+      no_cache: true
+      tags:
+        - "pgweb:build"
+        - "gautada/pgweb:build"
+    image: "pgweb:build"
+    ports:
+      - "8080:8080"
+    volumes:
+      - "Container:/mnt/volumes/container"
+      - "Backup:/mnt/volumes/backup"
 
 volumes:
   Container:
-	external: true
-	name: "Container"
+    external: true
+    name: "Container"
 
   Backup:
-	external: true
-	name: "Backup"
-
-
-
+    external: true
+    name: "Backup"
