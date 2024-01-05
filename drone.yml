@@ -54,7 +54,7 @@ steps:
   when:
     branch:
     - main
-	
+
 trigger:
   event:
   - push
