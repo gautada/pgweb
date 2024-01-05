@@ -15,10 +15,10 @@ steps:
 
 - name: test
   environment:
-	DOCKERIO_USERNAME:
-	  from_secret: username.docker.io
-	DOCKERIO_PASSWORD:
-	  from_secret: password.docker.io
+    DOCKERIO_USERNAME:
+      from_secret: username.docker.io
+    DOCKERIO_PASSWORD:
+      from_secret: password.docker.io
   commands:
   - echo "No tests are defined at this time."
   - /usr/bin/podman login --username=$DOCKERIO_USERNAME --password=$DOCKERIO_PASSWORD docker.io
@@ -27,10 +27,10 @@ steps:
   
 - name: integrate
   environment:
-	DOCKERIO_USERNAME:
-	  from_secret: username.docker.io
-	DOCKERIO_PASSWORD:
-	  from_secret: password.docker.io
+    DOCKERIO_USERNAME:
+      from_secret: username.docker.io
+    DOCKERIO_PASSWORD:
+      from_secret: password.docker.io
   commands:
   - /usr/bin/podman tag $(/usr/bin/compose-data --name):build docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):$(/usr/bin/compose-data --version)
   - /usr/bin/podman tag $(/usr/bin/compose-data --name):build docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):latest
@@ -38,22 +38,22 @@ steps:
   - /usr/bin/podman push docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):latest
   - /usr/bin/podman push docker.io/$DOCKERIO_USERNAME/$(/usr/bin/compose-data --name):$(/usr/bin/compose-data --version)
   when:
-	branch:
-	- main
+    branch:
+    - main
 
 
 - name: deploy
   failure: ignore
   environment:
-	DRONE_SERVER:
-	  from_secret: server.drone.io
-	DRONE_TOKEN:
-	  from_secret: token.drone.io
+    DRONE_SERVER:
+      from_secret: server.drone.io
+    DRONE_TOKEN:
+      from_secret: token.drone.io
   commands:
   - echo "Deploy not defined"
   when:
-	branch:
-	- main
+    branch:
+    - main
 	
 trigger:
   event:

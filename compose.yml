@@ -4,7 +4,6 @@ services:
     build:
       args:
         ALPINE_VERSION: "latest"
-        CONTAINER_VERSION: "15.5"
         PGWEB_VERSION: "0.14.2"
       context: .
       dockerfile: container.build
