@@ -12,7 +12,8 @@ ENTRYPOINT_PARAMS="$@"
 CONTAINER_NAME="pgweb"
 
 container_entrypoint() {
- /usr/bin/pgweb --bind 0.0.0.0 --listen 8080 --debug --lock-session --url postgres://pgweb:postgresql.data.svc.cluster.local:5432 --user pgweb
+ /usr/bin/pgweb --bind 0.0.0.0 --listen 8080 --debug --lock-session 
+ # --url postgres://pgweb:postgresql.data.svc.cluster.local:5432 --user pgweb
 }
 
 container_version() {

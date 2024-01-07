@@ -74,6 +74,7 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
 COPY --from=src-pgweb /pgweb/pgweb /usr/bin/pgweb
+RUN /sbin/apk add --no-cache postgresql15
 
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
