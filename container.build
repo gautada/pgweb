@@ -50,7 +50,7 @@ ARG UID=1000
 ARG GID=1003
 RUN /usr/sbin/addgroup -g $GID $USER \
  && /usr/sbin/adduser -D -G $USER -s /bin/ash -u $UID $USER \
- && /usr/sbin/usermod -aG wheel $USER \
+ && /usr/sbin/usermod -aG privileged $USER \
  && /bin/echo "$USER:$USER" | chpasswd
 
 # PRIVILEGE: Removed because no priviledges are used.

@@ -11,7 +11,7 @@ ENTRYPOINT_PARAMS="$@"
 
 CONTAINER_NAME="pgweb"
 
-app_entrypoint() {
+container_entrypoint() {
  /usr/bin/pgweb --bind 0.0.0.0 --listen 8080 --host localhost --user pgweb
 }
 
