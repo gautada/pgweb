@@ -21,11 +21,15 @@ RUN apk add --no-cache go build-base git
 RUN git config --global advice.detachedHead false
 RUN git clone --branch $PGWEB_BRANCH --depth 1 https://github.com/sosedoff/pgweb.git
 
+COPY index.html /pgweb/static/index.html
+
 # ╭――――――――――――――――――――╮
 # │ BUILD              │
 # ╰――――――――――――――――――――╯
 WORKDIR /pgweb
 RUN make build
+# RUN make setup \
+#  && make dev
 
 
 # │ STAGE: pgweb container                                          
