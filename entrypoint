@@ -12,13 +12,15 @@ ENTRYPOINT_PARAMS="$@"
 CONTAINER_NAME="pgweb"
 
 container_entrypoint() {
- /usr/bin/pgweb --bind 0.0.0.0 --listen 8080 
- # --url postgres://pgweb:postgresql.data.svc.cluster.local:5432 --user pgweb
+ /usr/bin/pgweb --log-level=debug --host=0.0.0.0 --listen=8080 --db=postgres
+  
+ # --url postgres://pgweb:postgresql.data.svc.cluster.local:5432
+ # --user=pgweb --prefix=https
  # postgres://pgweb:@localhost:5432/?connect_timeout=30&sslmode=disable
 }
 
 container_version() {
- echo "0.0.0"
+ pgweb --version | awk -F ' ' '{print $2}' | cut -c 2-
 }
 
 
