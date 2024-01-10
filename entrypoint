@@ -12,7 +12,7 @@ ENTRYPOINT_PARAMS="$@"
 CONTAINER_NAME="pgweb"
 
 container_entrypoint() {
- /usr/bin/pgweb --log-level=debug --bind=0.0.0.0 --listen=8080 --db=postgres
+ /usr/bin/pgweb --log-level=debug --bind=0.0.0.0 --listen=8080 --db=postgres --cors --cors-origin=https://psql.gautier.org
   
  # --url postgres://pgweb:postgresql.data.svc.cluster.local:5432
  # --user=pgweb --prefix=https
