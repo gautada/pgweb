@@ -14,8 +14,7 @@ services:
         - "gautada/pgweb:build"
     image: "pgweb:build"
     environment:
-    - PGWEB_DATABASE_URL=postgres://pgweb@psql.gautier.org:5432/postgres?connect_timeout=30&sslmode=disable
-    - PGWEB_CORS_ORIGIN=http://localhost:8080/
+    - PGWEB_DATABASE_URL=postgres://pgweb@[HOST.DOMAIN.TLD]:5432/postgres?connect_timeout=30&sslmode=disable
     ports:
       - "8080:8080"
     volumes:

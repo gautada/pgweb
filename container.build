@@ -32,8 +32,8 @@ RUN make build
 #  && make dev
 
 
-# │ STAGE: pgweb container                                          
-# ╰―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+# │ STAGE: pgweb container
+# ╰―――――――――――――――――――――――――――――――――――――――――――――――――
 FROM gautada/alpine:$ALPINE_VERSION
 
 # ╭――――――――――――――――――――╮
@@ -79,6 +79,7 @@ RUN /bin/chown -R $USER:$USER /mnt/volumes/container \
 # ╰――――――――――――――――――――╯
 COPY --from=src-pgweb /pgweb/pgweb /usr/bin/pgweb
 RUN /sbin/apk add --no-cache postgresql15
+RUN mkdir /home/$USER/.pgweb
 
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
