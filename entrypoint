@@ -13,7 +13,8 @@ CONTAINER_NAME="pgweb"
 
 container_entrypoint() {
  echo "CORS ORIGIN: $PGWEB_CORS_ORIGIN"
- /usr/bin/pgweb --log-level=debug --bind=0.0.0.0 --listen=8080 --db=postgres --cors --cors-origin="$PGWEB_CORS_ORIGIN"
+ /usr/bin/pgweb --log-level=debug --bind=0.0.0.0 --listen=8080 --db=postgres --cors --cors-origin="http://pgweb.data.svc.cluster.local:8080"
+ 
   
  # --url postgres://pgweb:postgresql.data.svc.cluster.local:5432
  # --user=pgweb --prefix=https
