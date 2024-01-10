@@ -15,7 +15,7 @@ services:
     image: "pgweb:build"
     environment:
     - PGWEB_DATABASE_URL=postgres://pgweb@psql.gautier.org:5432/postgres?connect_timeout=30&sslmode=disable
-    - PGWEB_CORS_ORIGIN=http://pgweb.data.svc.cluster.local
+    - PGWEB_CORS_ORIGIN=http://pgweb.data.svc.cluster.local:8080/
     ports:
       - "8080:8080"
     volumes:
