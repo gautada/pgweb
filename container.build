@@ -32,7 +32,7 @@ LABEL description="A PostgreSQL GUI container via pgweb"
 # ╭―
 # │ USER
 # ╰――――――――――――――――――――
-ARG USER=gitea
+ARG USER=pgweb
 RUN /usr/sbin/usermod -l $USER alpine
 RUN /usr/sbin/usermod -d /home/$USER -m $USER
 RUN /usr/sbin/groupmod -n $USER alpine
