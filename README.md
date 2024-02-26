@@ -31,3 +31,6 @@ postgres[ql]://[username[:password]@][host[:port],]/database[?parameter_list]
 
 **compose.yml** needs to have some variables set, to-do document.
 
+## Notes
+- 2024-02-26: FF to fix build error.
+
