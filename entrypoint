@@ -12,6 +12,10 @@ ENTRYPOINT_PARAMS="$@"
 CONTAINER_NAME="pgweb"
 
 container_entrypoint() {
+ QUERIES_FOLDER="/mnt/volumes/container/pgweb/queries"
+ if [ ! -d  $QUERIES_FOLDER ] ; then
+  /bin/mkdir -p $QUERIES_FOLDER
+ fi
  /usr/bin/pgweb --log-level=debug --bind=0.0.0.0 --listen=8080 --db=postgres
 }
 
