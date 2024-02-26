@@ -1,6 +1,9 @@
 version: "3.9"
 services:
   pgweb:
+    dns:
+    - 10.0.4.200
+    - 10.0.4.201
     build:
       args:
         ALPINE_VERSION: "latest"
@@ -14,6 +17,8 @@ services:
         - "gautada/pgweb:build"
         - "gautada/pgweb:latest"
     image: "pgweb:build"
+    hostname: pgweb
+    container_name: pgweb 
     environment:
     # postgres://pgweb@[HOST.DOMAIN.TLD]:5432/postgres?connect_timeout=30&sslmode=disable
     - PGWEB_DATABASE_URL=${COMPOSE_PGWEB_DATABASE_URL}
