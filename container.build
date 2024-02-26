@@ -58,12 +58,12 @@ COPY entrypoint /etc/container/entrypoint
 # ╰――――――――――――――――――――╯
 COPY --from=SOURCE /pgweb/pgweb /usr/bin/pgweb
 RUN /sbin/apk add --no-cache postgresql15
-RUN mkdir /home/$USER/.pgweb
 
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
 # ╰――――――――――――――――――――╯
 USER $USER
+RUN /bin/ln -fsv /mnt/volumes/container/pgweb /home/$USER/.pgweb
 VOLUME /mnt/volumes/backup
 VOLUME /mnt/volumes/configmaps
 VOLUME /mnt/volumes/container
