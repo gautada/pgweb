@@ -1,6 +1,6 @@
 kind: pipeline
 type: exec
-name: CICD - pgweb container
+name: DATA - pgweb container
 
 platform:
   os: linux
