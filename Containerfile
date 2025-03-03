@@ -7,6 +7,7 @@ FROM gautada/alpine:$ALPINE_VERSION as SOURCE
 ARG CONTAINER_VERSION=0.16.2
 ARG PGWEB_BRANCH=v"$CONTAINER_VERSION"
 
+# hadolint ignore=DL3018
 RUN apk add --no-cache go build-base git \
  && git config --global advice.detachedHead false \
  && git clone --branch $PGWEB_BRANCH --depth 1 https://github.com/sosedoff/pgweb.git
@@ -58,6 +59,7 @@ COPY entrypoint /etc/container/entrypoint
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
 COPY --from=SOURCE /pgweb/pgweb /usr/bin/pgweb
+# hadolint ignore=DL3018
 RUN /sbin/apk add --no-cache postgresql15-client
 
 # ╭――――――――――――――――――――╮
