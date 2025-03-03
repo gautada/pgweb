@@ -1,16 +1,16 @@
-ARG ALPINE_VERSION=3.18.2
+ARG ALPINE_VERSION=3.21.2
 
 # │ STAGE: BUILD                                      
 # ╰―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 FROM gautada/alpine:$ALPINE_VERSION as SOURCE
 
-ARG PGWEB_VERSION=0.14.2
-ARG PGWEB_BRANCH=v"$PGWEB_VERSION"
+ARG CONTAINER_VERSION=0.16.2
+ARG PGWEB_BRANCH=v"$CONTAINER_VERSION"
 
-RUN apk add --no-cache go build-base git
-
-RUN git config --global advice.detachedHead false
-RUN git clone --branch $PGWEB_BRANCH --depth 1 https://github.com/sosedoff/pgweb.git
+# hadolint ignore=DL3018
+RUN apk add --no-cache go build-base git \
+ && git config --global advice.detachedHead false \
+ && git clone --branch $PGWEB_BRANCH --depth 1 https://github.com/sosedoff/pgweb.git
 
 WORKDIR /pgweb
 RUN make build
@@ -33,10 +33,12 @@ LABEL description="A PostgreSQL GUI container via pgweb"
 # │ USER
 # ╰――――――――――――――――――――
 ARG USER=pgweb
-RUN /usr/sbin/usermod -l $USER alpine
-RUN /usr/sbin/usermod -d /home/$USER -m $USER
-RUN /usr/sbin/groupmod -n $USER alpine
-RUN /bin/echo "$USER:$USER" | /usr/sbin/chpasswd
+# Set shell to /bin/ash and enable pipefail for Alpine-based images
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+RUN /usr/sbin/usermod -l $USER alpine \
+ && /usr/sbin/usermod -d /home/$USER -m $USER \
+ && /usr/sbin/groupmod -n $USER alpine \
+ && /bin/echo "$USER:$USER" | /usr/sbin/chpasswd
 
 # ╭―
 # │ PRIVILEGES (OFF)
@@ -57,7 +59,8 @@ COPY entrypoint /etc/container/entrypoint
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
 COPY --from=SOURCE /pgweb/pgweb /usr/bin/pgweb
-RUN /sbin/apk add --no-cache postgresql15
+# hadolint ignore=DL3018
+RUN /sbin/apk add --no-cache postgresql15-client
 
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
