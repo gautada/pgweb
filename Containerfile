@@ -1,11 +1,11 @@
-ARG ALPINE_VERSION=3.18.2
+ARG ALPINE_VERSION=3.21.2
 
 # │ STAGE: BUILD                                      
 # ╰―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 FROM gautada/alpine:$ALPINE_VERSION as SOURCE
 
-ARG PGWEB_VERSION=0.14.2
-ARG PGWEB_BRANCH=v"$PGWEB_VERSION"
+ARG CONTAINER_VERSION=0.16.2
+ARG PGWEB_BRANCH=v"$CONTAINER_VERSION"
 
 RUN apk add --no-cache go build-base git
 
@@ -57,7 +57,7 @@ COPY entrypoint /etc/container/entrypoint
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
 COPY --from=SOURCE /pgweb/pgweb /usr/bin/pgweb
-RUN /sbin/apk add --no-cache postgresql15
+RUN /sbin/apk add --no-cache postgresql15-client
 
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
