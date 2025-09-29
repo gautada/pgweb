@@ -12,6 +12,11 @@ ENTRYPOINT_PARAMS="$@"
 CONTAINER_NAME="pgweb"
 
 container_entrypoint() {
+ echo "[INFO] Setup security files"
+ mkdir -p /etc/container/secrets
+ cp /mnt/volumes/secrets/client.cert /etc/container/secrets/
+ cp /mnt/volumes/secrets/client.key /etc/container/secrets/
+ chmod 600 /etc/container/secrets/*
  QUERIES_FOLDER="/mnt/volumes/container/pgweb/queries"
  if [ ! -d  $QUERIES_FOLDER ] ; then
   /bin/mkdir -p $QUERIES_FOLDER

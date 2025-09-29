@@ -1,22 +1,15 @@
 ARG ALPINE_VERSION=3.21.2
-
-# │ STAGE: BUILD                                      
-# ╰―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 FROM gautada/alpine:$ALPINE_VERSION as SOURCE
 
-ARG CONTAINER_VERSION=0.16.2
-ARG PGWEB_BRANCH=v"$CONTAINER_VERSION"
+ARG IMAGE_VERSION=0.16.2
 
-# hadolint ignore=DL3018
+WORKDIR /opt
 RUN apk add --no-cache go build-base git \
  && git config --global advice.detachedHead false \
- && git clone --branch $PGWEB_BRANCH --depth 1 https://github.com/sosedoff/pgweb.git
+ && git clone --branch "v${IMAGE_VERSION}" --depth 1 https://github.com/sosedoff/pgweb.git
 
-WORKDIR /pgweb
+WORKDIR /opt/pgweb
 RUN make build
-# RUN make setup \
-#  && make dev
-
 
 # │ STAGE: CONTAINER
 # ╰―――――――――――――――――――――――――――――――――――――――――――――――――
@@ -25,9 +18,12 @@ FROM gautada/alpine:$ALPINE_VERSION as CONTAINER
 # ╭―
 # │ METADATA
 # ╰――――――――――――――――――――
-LABEL source="https://github.com/gautada/pgweb-container.git"
-LABEL maintainer="Adam Gautier <adam@gautier.org>"
-LABEL description="A PostgreSQL GUI container via pgweb"
+LABEL org.opencontainers.image.title="pgweb"
+LABEL org.opencontainers.image.description="A pgweb database manager container."
+LABEL org.opencontainers.image.url="https://hub.docker.com/r/gautada/pgweb"
+LABEL org.opencontainers.image.source="https://github.com/gautada/pgweb"
+LABEL org.opencontainers.image.version="${IMAGE_VERSION}"
+LABEL org.opencontainers.image.license="Upstream"
 
 # ╭―
 # │ USER
@@ -59,8 +55,9 @@ COPY entrypoint /etc/container/entrypoint
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
 COPY --from=SOURCE /pgweb/pgweb /usr/bin/pgweb
-# hadolint ignore=DL3018
-RUN /sbin/apk add --no-cache postgresql15-client
+RUN /sbin/apk add --no-cache postgresql17-client \
+&& mkdir -p /etc/container/secrets \
+&& chown $USER:$USER -R /etc/container/secrets
 
 # ╭――――――――――――――――――――╮
 # │ CONTAINER          │
