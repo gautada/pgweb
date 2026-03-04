@@ -1,0 +1,6 @@
+#!/bin/sh
+# s6 service: starts pgweb bound to all interfaces on port 8080.
+# No --db flag is passed; pgweb will display the connection login form.
+# In production, connect to a PostgreSQL instance via the UI or
+# mount a pgweb config at /mnt/volumes/configmaps/pgweb.toml.
+exec /usr/bin/pgweb --bind=0.0.0.0 --listen=8080

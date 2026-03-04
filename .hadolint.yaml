@@ -1,4 +1,4 @@
----
 ignored:
-  - DL4006  # Eliminates the need for SHELL command on `|`.
-  - DL3018  # Eliminate specific alpine package version
+  - DL4006
+  - DL3008
+  - DL3009
