@@ -34,3 +34,60 @@ parameters to use.
 ## Notes
 
 - 2024-02-26: FF to fix build error.
+
+## Bookmarks and Saved Queries
+
+pgweb supports saved database connection bookmarks via `.toml` files mounted
+at `/mnt/volumes/configmaps/bookmarks/`. The service script automatically
+enables bookmarks when this directory exists.
+
+### Bookmark File Format
+
+Create one `.toml` file per bookmark in `/mnt/volumes/configmaps/bookmarks/`:
+
+```toml
+# /mnt/volumes/configmaps/bookmarks/mydb.toml
+[bookmark]
+url      = "postgres://user:password@host:5432/dbname"
+# Optional: pre-load a query when this bookmark is selected
+# query = "SELECT * FROM users LIMIT 10;"
+```
+
+Or using individual fields:
+
+```toml
+[bookmark]
+host     = "postgres-host"
+port     = 5432
+user     = "pgweb"
+password = "secret"
+database = "mydb"
+sslmode  = "disable"
+```
+
+### Kubernetes ConfigMap Example
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgweb-bookmarks
+data:
+  production.toml: |
+    [bookmark]
+    host     = "postgres"
+    port     = 5432
+    user     = "pgweb"
+    database = "app"
+    sslmode  = "require"
+```
+
+Mount at `/mnt/volumes/configmaps/bookmarks` in your pod spec.
+
+### Saved Queries
+
+pgweb does not provide server-side persistent query storage. The
+`query` field in a bookmark `.toml` file pre-populates the query
+editor when the bookmark connection is opened, providing a
+workflow for commonly used queries. Query history is stored in the
+browser's local storage.

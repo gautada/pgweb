@@ -3,4 +3,12 @@
 # No --db flag is passed; pgweb will display the connection login form.
 # In production, connect to a PostgreSQL instance via the UI or
 # mount a pgweb config at /mnt/volumes/configmaps/pgweb.toml.
-exec /usr/bin/pgweb --bind=0.0.0.0 --listen=8080
+#
+# Bookmarks: place .toml files in /mnt/volumes/configmaps/bookmarks/
+# to provide saved connection bookmarks and pre-defined queries.
+BOOKMARKS_DIR=/mnt/volumes/configmaps/bookmarks
+if [ -d "$BOOKMARKS_DIR" ]; then
+  exec /usr/bin/pgweb --bind=0.0.0.0 --listen=8080 --bookmarks-path="$BOOKMARKS_DIR"
+else
+  exec /usr/bin/pgweb --bind=0.0.0.0 --listen=8080
+fi
